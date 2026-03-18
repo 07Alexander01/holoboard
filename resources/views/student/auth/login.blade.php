@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="author" content="WRAPCODERS">
+    <title>Holo Board || Student Login</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/css/vendors.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/theme.min.css') }}">
+    <!--[if lt IE 9]>
+            <script src="https:oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https:oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <main class="auth-minimal-wrapper">
+        <div class="auth-minimal-inner">
+            <div class="minimal-card-wrapper">
+                <div class="card mb-4 mt-5 mx-4 mx-sm-0 position-relative">
+                    <div class="wd-50 bg-white p-2 rounded-circle shadow-lg position-absolute translate-middle top-0 start-50">
+                        <img src="{{ asset('landing/img/logo.jpg') }}" alt="Logo" class="img-fluid" style="border-radius: 50%;">
+                    </div>
+                    <div class="card-body p-sm-5">
+                        <h2 class="fs-20 fw-bolder mb-4">Holo Board</h2>
+                        <h4 class="fs-13 fw-bold mb-2">Welcome to your Portal</h4>
+                        <p class="fs-12 fw-medium text-muted">Enter your credentials to access the student dashboard.</p>
+                        @if (session('success'))
+                            <div class="alert alert-success mt-3 fs-12">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger mt-3">
+                                <ul class="mb-0 ps-3">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form action="{{ route('student.login.post') }}" method="POST" class="w-100 mt-4 pt-2">
+                            @csrf
+                            <div class="mb-4">
+                                <input type="email" name="email" class="form-control" placeholder="Email Address" value="" required>
+                            </div>
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <input type="password" id="login_password" name="password" class="form-control" placeholder="Password" value="" required>
+                                    <button type="button" class="btn btn-outline-secondary toggle-password" data-target="login_password" aria-label="Show password">
+                                        <i class="feather-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="rememberMe" name="remember">
+                                        <label class="custom-control-label c-pointer" for="rememberMe">Remember Me</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a href="{{ route('student.password.request') }}" class="fs-11 text-primary">Forget password?</a>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <button type="submit" class="btn btn-lg btn-primary w-100">Login</button>
+                            </div>
+                        </form>
+                        <div class="mt-4 text-center">
+                            <p class="fs-12 fw-medium text-muted">Don't have an account? <a href="{{ route('student.register') }}" class="text-primary">Register here</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="{{ asset('assets/vendors/js/vendors.min.js') }}"></script>
+    <script src="{{ asset('assets/js/common-init.min.js') }}"></script>
+    <script>
+        (function () {
+            var toggles = document.querySelectorAll('.toggle-password');
+            toggles.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var targetId = this.getAttribute('data-target');
+                    var input = document.getElementById(targetId);
+                    if (!input) return;
+                    var showing = input.getAttribute('type') === 'text';
+                    input.setAttribute('type', showing ? 'password' : 'text');
+                    var icon = this.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove(showing ? 'feather-eye-off' : 'feather-eye');
+                        icon.classList.add(showing ? 'feather-eye' : 'feather-eye-off');
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>
