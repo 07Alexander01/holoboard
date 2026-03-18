@@ -151,3 +151,8 @@ Route::get('/fix-admin', function () {
 
     return $user->getRoleNames();
 });
+
+Route::get('/clear-permissions', function () {
+    app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+    return 'Permissions cache cleared!';
+});
