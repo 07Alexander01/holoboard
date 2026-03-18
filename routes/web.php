@@ -138,3 +138,9 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::get('/certificates/{certificate}/download', [\App\Http\Controllers\CertificateController::class, 'download'])->name('events.certificate.download');
     });
 });
+use Spatie\Permission\PermissionRegistrar;
+
+Route::get('/fix-role', function () {
+    app()[PermissionRegistrar::class]->forgetCachedPermissions();
+    return 'Roles cache cleared';
+});
