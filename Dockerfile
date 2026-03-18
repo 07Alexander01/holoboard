@@ -58,3 +58,9 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=0 \
     PHP_OPCACHE_INTERNED_STRINGS_BUFFER=16
 
 CMD ["/usr/local/bin/start-container"]
+
+RUN mkdir -p storage/framework/views \
+    storage/framework/cache \
+    storage/framework/sessions \
+    bootstrap/cache \
+ && chmod -R 775 storage bootstrap/cache
