@@ -138,9 +138,16 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::get('/certificates/{certificate}/download', [\App\Http\Controllers\CertificateController::class, 'download'])->name('events.certificate.download');
     });
 });
-use Spatie\Permission\PermissionRegistrar;
+use App\Models\User;
 
-Route::get('/fix-role', function () {
-    app()[PermissionRegistrar::class]->forgetCachedPermissions();
-    return 'Roles cache cleared';
+Route::get('/fix-admin', function () {
+    $user = User::where('email', 'admin@example.com')->first();
+
+    // remove old roles just in case
+    $user->syncRoles([]);
+
+    // assign properly via Spatie
+    $user->assignRole('admin');
+
+    return $user->getRoleNames();
 });
